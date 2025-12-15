@@ -3,7 +3,7 @@
 ### Phase 1: GCP Infrastructure Setup
 
 - [x] Create GCP project and enable billing with $300 credit
-- [ ] Enable required APIs (Compute Engine, Pub/Sub, Cloud Storage)
+- [x] Enable required APIs (Compute Engine, Pub/Sub, Cloud Storage)
 - [ ] Create VPC network and subnet (10.0.0.0/24)
 - [ ] Configure firewall rules for internal communication
 - [ ] Configure firewall rules for external access (SSH, web UIs)
