@@ -15,7 +15,7 @@
 
 ### Phase 2: Base Software Installation (All Nodes)
 
-- [ ] Install Java 17 (OpenJDK) on all nodes
+- [ ] Install Java 17 (OpenJDK) on nodes 1, 2
 - [ ] Install Python 3.10+ and pip on all nodes
 - [ ] Configure SSH key-based authentication between nodes
 - [ ] Set up `/etc/hosts` for hostname resolution between nodes
