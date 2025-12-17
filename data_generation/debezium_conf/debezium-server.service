@@ -1,0 +1,21 @@
+[Unit]
+Description=Debezium Server
+After=network.target
+
+[Service]
+Type=simple
+User=longnguyen
+WorkingDirectory=/home/longnguyen/debezium-server
+Environment="GOOGLE_APPLICATION_CREDENTIALS=/home/longnguyen/credentials/key.json"
+
+
+# Redirect logs to file
+StandardOutput=append:/home/longnguyen/debezium-server/logs/debezium-server.log
+StandardError=append:/home/longnguyen/debezium-server/logs/debezium-server-error.log
+
+ExecStart=/home/longnguyen/debezium-server/run.sh
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

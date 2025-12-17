@@ -4,18 +4,18 @@
 
 - [x] Create GCP project and enable billing with $300 credit
 - [x] Enable required APIs (Compute Engine, Pub/Sub, Cloud Storage)
-- [ ] Create VPC network and subnet (10.0.0.0/24)
-- [ ] Configure firewall rules for internal communication
+- [x] Create VPC network and subnet (10.0.0.0/24)
+- [x] Configure firewall rules for internal communication
 - [ ] Configure firewall rules for external access (SSH, web UIs)
-- [ ] Create GCS bucket for Delta Lake
+- [x] Create GCS bucket for Delta Lake
 - [ ] Create Pub/Sub topics (cdc.orders, cdc.customers, cdc.products)
 - [ ] Create Pub/Sub subscription for Spark streaming
-- [ ] Create service account with Pub/Sub and GCS permissions
-- [ ] Provision 3 x e2-standard-4 VMs with static internal IPs
+- [x] Create service account with Pub/Sub and GCS permissions
+- [ ] Provision 3 x e2-standard-2 VMs with static internal IPs
 
 ### Phase 2: Base Software Installation (All Nodes)
 
-- [ ] Install Java 17 (OpenJDK) on nodes 1, 2
+- [ ] Install Java 17 (OpenJDK) on nodes 2, 3
 - [ ] Install Python 3.10+ and pip on all nodes
 - [ ] Configure SSH key-based authentication between nodes
 - [ ] Set up `/etc/hosts` for hostname resolution between nodes
@@ -24,13 +24,13 @@
 
 ### Phase 3: Node 1 - Source Layer Setup
 
-- [ ] Install PostgreSQL 15
-- [ ] Configure `postgresql.conf` for logical replication (wal_level=logical)
-- [ ] Create database user with replication permissions
+- [x] Install PostgreSQL 15
+- [x] Configure `postgresql.conf` for logical replication (wal_level=logical)
+- [x] Create database user with replication permissions
 - [ ] Create OLTP database schema (orders, customers, products tables)
-- [ ] Download and configure Debezium Server
-- [ ] Configure Debezium PostgreSQL connector
-- [ ] Configure Debezium Pub/Sub sink
+- [x] Download and configure Debezium Server
+- [x] Configure Debezium PostgreSQL connector
+- [x] Configure Debezium Pub/Sub sink
 - [ ] Install Jupyter Notebook
 - [ ] Create Python virtual environment for Data Generator
 - [ ] Develop Data Generator application
