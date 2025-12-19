@@ -31,14 +31,14 @@
 - [x] Download and configure Debezium Server
 - [x] Configure Debezium PostgreSQL connector
 - [x] Configure Debezium Pub/Sub sink
-- [ ] Install Jupyter Notebook
+- [x] Install Jupyter Notebook
 - [ ] Create Python virtual environment for Data Generator
 - [ ] Develop Data Generator application
 - [ ] Test CDC flow: Generator → PostgreSQL → Debezium → Pub/Sub
 
 ### Phase 4: Node 2 & 3 - Spark Cluster Setup
 
-- [ ] Download and extract Apache Spark 3.5 on Node 2 and Node 3
+- [ ] Download and extract Apache Spark 4 on Node 2 and Node 3
 - [ ] Configure Spark environment variables on both nodes
 - [ ] Configure `spark-env.sh` on Node 2 (Master settings)
 - [ ] Configure `spark-env.sh` on Node 3 (Worker settings)
