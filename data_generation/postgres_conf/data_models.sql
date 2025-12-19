@@ -1,20 +1,21 @@
 -- PostgreSQL Table Definitions for Instacart Dataset
 -- Generated based on CSV data files
+create schema instacart;
 
 -- Departments table
-CREATE TABLE IF NOT EXISTS departments (
+CREATE TABLE IF NOT EXISTS instacart.departments (
     department_id INTEGER PRIMARY KEY,
     department VARCHAR(255) NOT NULL
 );
 
 -- Aisles table
-CREATE TABLE IF NOT EXISTS aisles (
+CREATE TABLE IF NOT EXISTS instacart.aisles (
     aisle_id INTEGER PRIMARY KEY,
     aisle VARCHAR(255) NOT NULL
 );
 
 -- Products table
-CREATE TABLE IF NOT EXISTS products (
+CREATE TABLE IF NOT EXISTS instacart.products (
     product_id INTEGER PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
     aisle_id INTEGER NOT NULL,
@@ -22,7 +23,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 -- Orders table
-CREATE TABLE IF NOT EXISTS orders (
+CREATE TABLE IF NOT EXISTS instacart.orders (
     order_id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
     order_number INTEGER,
@@ -32,7 +33,7 @@ CREATE TABLE IF NOT EXISTS orders (
 );
 
 -- Order Products table (all order-product relationships)
-CREATE TABLE IF NOT EXISTS order_products (
+CREATE TABLE IF NOT EXISTS instacart.order_products (
     order_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
     add_to_cart_order INTEGER,

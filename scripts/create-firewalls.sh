@@ -7,15 +7,13 @@ gcloud compute firewall-rules create allow-internal-cluster \
 	--description="Allow all internal communication between cluster nodes" \
 	--priority=1000
 
-MY_IP=$(curl -4 ifconfig.me)
-
 # add new config
 gcloud compute firewall-rules create allow-from-my-ip \
   --network=cdc-pipeline-vpc \
   --action=allow \
-  --rules=tcp:22,tcp:3000,tcp:5432,tcp:5433,tcp:7077,tcp:8080,tcp:8081,tcp:8083,tcp:8888,tcp:10000 \
-  --source-ranges="${MY_IP}/32" \
-  --description="Allow access from my current IP (${MY_IP})" \
+  --rules=tcp:3000,tcp:5432,tcp:5433,tcp:7077,tcp:8080,tcp:8081,tcp:8083,tcp:8888,tcp:10000 \
+  --source-ranges="$(curl -4 ifconfig.me)/32" \
+  --description="Allow access from my current IP" \
   --priority=1000 \
   --direction=INGRESS
 	

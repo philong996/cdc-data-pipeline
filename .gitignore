@@ -3,3 +3,4 @@ data/
 credentials/
 .conda/
 .env
+.DS_Store
