@@ -27,28 +27,28 @@
 - [x] Install PostgreSQL 15
 - [x] Configure `postgresql.conf` for logical replication (wal_level=logical)
 - [x] Create database user with replication permissions
-- [ ] Create OLTP database schema (orders, customers, products tables)
+- [x] Create OLTP database schema (orders, products tables)
 - [x] Download and configure Debezium Server
 - [x] Configure Debezium PostgreSQL connector
 - [x] Configure Debezium Pub/Sub sink
 - [x] Install Jupyter Notebook
-- [ ] Create Python virtual environment for Data Generator
-- [ ] Develop Data Generator application
-- [ ] Test CDC flow: Generator → PostgreSQL → Debezium → Pub/Sub
+- [x] Create Python virtual environment for Data Generator
+- [x] Develop Data Generator application
+- [x] Test CDC flow: Generator → PostgreSQL → Debezium → Pub/Sub
 
 ### Phase 4: Node 2 & 3 - Spark Cluster Setup
 
-- [ ] Download and extract Apache Spark 4 on Node 2 and Node 3
-- [ ] Configure Spark environment variables on both nodes
-- [ ] Configure `spark-env.sh` on Node 2 (Master settings)
-- [ ] Configure `spark-env.sh` on Node 3 (Worker settings)
-- [ ] Configure `spark-defaults.conf` with Delta Lake and GCS dependencies
+- [x] Download and extract Apache Spark 4 on Node 2 and Node 3
+- [x] Configure Spark environment variables on both nodes
+- [x] Configure `spark-env.sh` on Node 2 (Master settings)
+- [x] Configure `spark-env.sh` on Node 3 (Worker settings)
+- [x] Configure `spark-defaults.conf` with Delta Lake and GCS dependencies
 - [ ] Download required JARs (Delta Lake, GCS connector, Pub/Sub connector)
-- [ ] Start Spark Master on Node 2
-- [ ] Start Spark Worker on Node 2, register to Master
-- [ ] Start Spark Worker on Node 3, register to Master
-- [ ] Verify cluster via Spark Web UI (port 8080)
-- [ ] Run test job to verify distributed execution
+- [x] Start Spark Master on Node 2
+- [x] Start Spark Worker on Node 2, register to Master
+- [x] Start Spark Worker on Node 3, register to Master
+- [x] Verify cluster via Spark Web UI (port 8080)
+- [x] Run test job to verify distributed execution
 
 ### Phase 5: Streaming Pipeline Development
 
