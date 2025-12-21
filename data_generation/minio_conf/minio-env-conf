@@ -1,0 +1,13 @@
+# MinIO local volumes (data directory)
+# For single node setup, use one directory
+MINIO_VOLUMES="~/minio/data"
+
+# MinIO root user credentials
+# CHANGE THESE IN PRODUCTION!
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin123
+
+# MinIO server options
+# --console-address: Web UI port
+# --address: API endpoint port
+MINIO_OPTS="--console-address :9001 --address :9000"

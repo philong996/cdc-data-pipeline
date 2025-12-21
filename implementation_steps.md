@@ -3,24 +3,23 @@
 ### Phase 1: GCP Infrastructure Setup
 
 - [x] Create GCP project and enable billing with $300 credit
-- [x] Enable required APIs (Compute Engine, Pub/Sub, Cloud Storage)
+- [x] Enable required APIs (Compute Engine, GCS Buckets)
 - [x] Create VPC network and subnet (10.0.0.0/24)
 - [x] Configure firewall rules for internal communication
 - [ ] Configure firewall rules for external access (SSH, web UIs)
 - [x] Create GCS bucket for Delta Lake
-- [ ] Create Pub/Sub topics (cdc.orders, cdc.customers, cdc.products)
-- [ ] Create Pub/Sub subscription for Spark streaming
 - [x] Create service account with Pub/Sub and GCS permissions
-- [ ] Provision 3 x e2-standard-2 VMs with static internal IPs
+- [x] Provision 3 x e2-standard-2 VMs with static internal IPs
+- [ ] Set up Kafka 
 
 ### Phase 2: Base Software Installation (All Nodes)
 
-- [ ] Install Java 17 (OpenJDK) on nodes 2, 3
-- [ ] Install Python 3.10+ and pip on all nodes
-- [ ] Configure SSH key-based authentication between nodes
-- [ ] Set up `/etc/hosts` for hostname resolution between nodes
-- [ ] Install Google Cloud SDK on all nodes
-- [ ] Configure service account credentials on all nodes
+- [x] Install Java 17 (OpenJDK) on nodes 2, 3
+- [x] Install Python 3.10+ and pip on all nodes
+- [x] Configure SSH key-based authentication between nodes
+- [x] Set up `/etc/hosts` for hostname resolution between nodes
+- [x] Install Google Cloud SDK on all nodes
+- [x] Configure service account credentials on all nodes
 
 ### Phase 3: Node 1 - Source Layer Setup
 
@@ -30,11 +29,11 @@
 - [x] Create OLTP database schema (orders, products tables)
 - [x] Download and configure Debezium Server
 - [x] Configure Debezium PostgreSQL connector
-- [x] Configure Debezium Pub/Sub sink
+- [ ] Configure Debezium Kafka sink
 - [x] Install Jupyter Notebook
 - [x] Create Python virtual environment for Data Generator
 - [x] Develop Data Generator application
-- [x] Test CDC flow: Generator → PostgreSQL → Debezium → Pub/Sub
+- [x] Test CDC flow: Generator → PostgreSQL → Debezium → Kafka
 
 ### Phase 4: Node 2 & 3 - Spark Cluster Setup
 
@@ -43,7 +42,7 @@
 - [x] Configure `spark-env.sh` on Node 2 (Master settings)
 - [x] Configure `spark-env.sh` on Node 3 (Worker settings)
 - [x] Configure `spark-defaults.conf` with Delta Lake and GCS dependencies
-- [ ] Download required JARs (Delta Lake, GCS connector, Pub/Sub connector)
+- [ ] Download required JARs (Delta Lake, GCS connector, Kafka connector)
 - [x] Start Spark Master on Node 2
 - [x] Start Spark Worker on Node 2, register to Master
 - [x] Start Spark Worker on Node 3, register to Master
@@ -52,7 +51,7 @@
 
 ### Phase 5: Streaming Pipeline Development
 
-- [ ] Develop Spark Structured Streaming job (Pub/Sub source)
+- [ ] Develop Spark Structured Streaming job (Kafka source)
 - [ ] Implement Debezium JSON envelope parsing
 - [ ] Implement CDC operation handling (insert/update/delete)
 - [ ] Configure Delta Lake sink for bronze layer
