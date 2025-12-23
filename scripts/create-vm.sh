@@ -9,7 +9,7 @@ gcloud compute instances create node-2 \
   --address=external-ip-node-2 \
   --image-family=ubuntu-2204-lts \
   --image-project=ubuntu-os-cloud \
-  --boot-disk-size=20GB \
+  --boot-disk-size=40GB \
   --boot-disk-type=pd-standard
 
 gcloud compute instances create node-3 \
@@ -21,5 +21,5 @@ gcloud compute instances create node-3 \
   --address=external-ip-node-3 \
   --image-family=ubuntu-2204-lts \
   --image-project=ubuntu-os-cloud \
-  --boot-disk-size=20GB \
+  --boot-disk-size=40GB \
   --boot-disk-type=pd-standard  
