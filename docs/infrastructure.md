@@ -9,7 +9,7 @@
 | Zookeeper | 2181 |
 | Kafka | 9092 |
 | Data Generator (Python) | - |
-| Jupyter Notebook | 8888 |
+| Jupyter labs | 8888 |
 
 ## Node 2: Spark Master + Worker
 

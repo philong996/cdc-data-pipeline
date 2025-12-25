@@ -1,5 +1,17 @@
 
 # Spark cluster VM creation script
+gcloud compute instances create node-1 \
+  --zone=asia-southeast1-b \
+  --machine-type=e2-standard-4 \
+  --network=cdc-pipeline-vpc \
+  --subnet=cdc-pipeline-subnet \
+  --network-tier=STANDARD \
+  --address=external-ip-node-1 \
+  --image-family=ubuntu-2204-lts \
+  --image-project=debian-12-bookworm \
+  --boot-disk-size=40GB \
+  --boot-disk-type=pd-standard
+
 gcloud compute instances create node-2 \
   --zone=asia-southeast1-b \
   --machine-type=e2-standard-2 \

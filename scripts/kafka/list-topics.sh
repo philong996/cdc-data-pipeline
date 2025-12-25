@@ -1,0 +1,1 @@
+/opt/kafka/bin/kafka-topics.sh --bootstrap-server 10.0.0.2:9092 --list

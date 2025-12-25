@@ -7,3 +7,5 @@ credentials/
 .ipynb_checkpoints/
 __pycache__/
 logs/
+artifacts/
+pipeline.zip

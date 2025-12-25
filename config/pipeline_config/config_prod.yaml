@@ -1,0 +1,83 @@
+environment: dev
+
+kafka:
+  bootstrap_servers: "10.0.0.2:9092"
+  security_protocol: "PLAINTEXT"
+  topics:
+    - "cdc-pipeline.instacart.products"
+    - "cdc-pipeline.instacart.aisles"
+    - "cdc-pipeline.instacart.departments"
+    - "cdc-pipeline.instacart.orders"
+    - "cdc-pipeline.instacart.order_products"
+  group_id: "cdc-streaming-dev"
+  auto_offset_reset: "earliest"
+  enable_auto_commit: false
+  max_poll_records: 500
+
+spark:
+  app_name: "cdc-streaming-pipeline-dev"
+  master: "spark://node-2:7077"
+  log_level: "INFO"
+  config:
+    spark.sql.extensions: "io.delta.sql.DeltaSparkSessionExtension"
+    spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+    spark.sql.streaming.schemaInference: "true"
+    spark.sql.shuffle.partitions: "8"
+    spark.hadoop.fs.gs.impl: com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem
+    spark.hadoop.fs.AbstractFileSystem.gs.impl: com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS
+    spark.hadoop.google.cloud.auth.service.account.enable: true
+    spark.hadoop.google.cloud.auth.service.account.json.keyfile: /home/longnguyen/credentials/key.json
+    spark.driver.memory: "2g"
+    spark.executor.memory: "4g"
+    spark.executor.cores: "1"
+    spark.jars.packages: 
+      - "org.apache.spark:spark-sql-kafka-0-10_2.13:4.0.0"
+      - "io.delta:delta-spark_2.13:4.0.0"
+      - "com.google.cloud.bigdataoss:gcs-connector:hadoop3-2.2.11"
+
+logging:
+  level: "INFO"
+  path: "logs"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Storage paths for Delta Lake tables
+delta:
+  bronze_path: "gs://cdc-pipeline-data/prod/bronze"
+  silver_path: "gs://cdc-pipeline-data/prod/silver"
+  gold_path: "gs://cdc-pipeline-data/prod/gold"
+
+# Checkpoint paths for streaming jobs
+checkpoints:
+  bronze_path: "gs://cdc-pipeline-data/prod/bronze/checkpoints"
+  silver_path: "gs://cdc-pipeline-data/prod/silver/checkpoints"
+  gold_path: "gs://cdc-pipeline-data/prod/gold/checkpoints"
+
+
+# layer configurations
+bronze:
+  trigger_interval: "10 seconds"
+
+
+
+# Table Definitions Configuration
+tables:
+  products:
+    source_topic: "cdc-pipeline.instacart.products"
+    bronze_table: "bronze.products"
+
+  aisles:
+    source_topic: "cdc-pipeline.instacart.aisles"
+    bronze_table: "bronze.aisles"
+
+  departments:
+    source_topic: "cdc-pipeline.instacart.departments"
+    bronze_table: "bronze.departments"
+
+  orders:
+    source_topic: "cdc-pipeline.instacart.orders"
+    bronze_table: "bronze.orders"
+
+  order_products:
+    source_topic: "cdc-pipeline.instacart.order_products"
+    bronze_table: "bronze.order_products"
+
