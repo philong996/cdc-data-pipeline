@@ -1,0 +1,28 @@
+[Unit]
+Description=Apache Spark Service
+After=network.target
+Documentation=https://spark.apache.org/docs/latest/
+
+[Service]
+Type=forking
+User=longnguyen
+Group=longnguyen
+
+# Start command
+ExecStart=/home/longnguyen/spark/spark-4.0.0-bin-hadoop3/sbin/start-all.sh
+
+# Stop command
+ExecStop=/home/longnguyen/spark/spark-4.0.0-bin-hadoop3/sbin/stop-all.sh
+
+# Restart policy
+Restart=on-failure
+RestartSec=10
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=spark-service
+
+[Install]
+WantedBy=multi-user.target
+
