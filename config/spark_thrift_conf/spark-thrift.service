@@ -11,7 +11,7 @@ Environment="JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64"
 ExecStart=/home/longnguyen/spark/spark-4.0.0-bin-hadoop3/sbin/start-thriftserver.sh \
   --master spark://node-2:7077 \
   --driver-memory 4g \
-  --executor-memory 2g \
+  --executor-memory 4g \
   --executor-cores 2 \
   --num-executors 2 \
   --total-executor-cores 4 \
