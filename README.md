@@ -6,8 +6,8 @@ PostgreSQL → Debezium Server → Kafka → Spark → Delta Lake → Metabase
 
 ## Infrastructure
 - Node 1 (Client/Coordination): PostgreSQL, Debezium Server, Kafka, Jupyter
-- Node 2 (Spark Master): Spark Master/Worker, Thrift Server
-- Node 3 (Spark Worker): Spark Worker, Metabase
+- Node 2 (Spark Master): Spark Master/Worker
+- Node 3 (Spark Worker): Spark Worker, Metabase, Thrift Server
 - Storage: GCS Buckets for Delta Lake tables
 
 
