@@ -109,7 +109,7 @@ class InstacartDataLoader:
         with open(tracking_file_path, 'w') as f:
             json.dump(progress, f, indent=2)
     
-    def insert_batch_with_products(self, conn, orders_batch, order_products_df):
+    def insert_batch_with_orders(self, conn, orders_batch, order_products_df):
         """Insert a batch of orders along with their order products"""
         cursor = conn.cursor()
         
@@ -254,7 +254,7 @@ class InstacartDataLoader:
                     orders_batch = train_orders.iloc[current_index:end_index]
                     
                     # Insert orders and their products
-                    orders_inserted, products_inserted = self.insert_batch_with_products(
+                    orders_inserted, products_inserted = self.insert_batch_with_orders(
                         conn, orders_batch, train_products_df
                     )
                     

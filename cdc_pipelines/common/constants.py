@@ -14,13 +14,23 @@ CDC_OPERATIONS = {
 }
 
 # Column Names
-COL_KAFKA_TOPIC = "kafka_topic"
-COL_KAFKA_PARTITION = "kafka_partition"
-COL_KAFKA_OFFSET = "kafka_offset"
+COL_KAFKA_TOPIC = "topic"
+COL_KAFKA_PARTITION = "partition"
+COL_KAFKA_OFFSET = "offset"
 COL_KAFKA_TIMESTAMP = "kafka_timestamp"
 COL_INGESTION_TIMESTAMP = "ingestion_timestamp"
 COL_CDC_OPERATION = "cdc_operation"
 COL_CDC_TIMESTAMP = "cdc_timestamp"
+
+META_COLS = [
+    COL_KAFKA_TOPIC
+    , COL_KAFKA_PARTITION
+    , COL_KAFKA_OFFSET
+    , COL_KAFKA_TIMESTAMP
+    , COL_CDC_OPERATION
+    , COL_CDC_TIMESTAMP
+]
+
 
 # SCD2 Columns
 COL_VALID_FROM = "valid_from"

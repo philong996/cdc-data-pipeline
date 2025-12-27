@@ -16,11 +16,24 @@ else
 fi
 
 # Parse command line arguments
-ENVIRONMENT="${1:-dev}"
+ENVIRONMENT=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -e|--env)
+            ENVIRONMENT="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+done
 
 if [ -z "$ENVIRONMENT" ]; then
-    echo "Usage: $0 <environment>"
-    echo "Example: $0 dev"
+    echo "Usage: $0 --env <environment>"
+    echo "Example: $0 --env dev"
     exit 1
 fi
 
@@ -28,7 +41,8 @@ echo "Environment: $ENVIRONMENT"
 
 
 # Configuration
-CONFIG_FILE="${CONFIG_PATH:-$PROJECT_ROOT/config/pipeline_config/}"
+CONFIG_DIR="${CONFIG_PATH:-$PROJECT_ROOT/config/pipeline_config/}"
+CONFIG_FILE="${CONFIG_DIR}config_${ENVIRONMENT}.yaml"
 PYTHON_FILE="$PROJECT_ROOT/cdc_pipelines/pipelines/bronze/main.py"
 
 echo "Deploying Bronze Layer Pipeline"
@@ -41,6 +55,7 @@ echo ""
 
 # Package dependencies
 cd "$PROJECT_ROOT"
+echo "Packaging pipeline dependencies..."
 zip -r pipeline.zip cdc_pipelines -x "**/__pycache__/*" "**/*.pyc"
 
 spark-submit \
@@ -53,7 +68,7 @@ spark-submit \
     --packages org.apache.spark:spark-sql-kafka-0-10_2.13:4.0.0,io.delta:delta-spark_2.13:4.0.0,com.google.cloud.bigdataoss:gcs-connector:hadoop3-2.2.11 \
     --py-files pipeline.zip \
     "$PYTHON_FILE" \
-    --config "$CONFIG_FILE" \
+    --config "$CONFIG_DIR" \
     --env "$ENVIRONMENT" \
     > "$PROJECT_ROOT/logs/bronze/bronze_pipeline.log" 2>&1 &
 
@@ -61,8 +76,8 @@ SPARK_PID=$!
 echo "Bronze pipeline started with PID: $SPARK_PID"
 echo $SPARK_PID > "$PROJECT_ROOT/logs/bronze/pipeline.pid"
 
-# Cleanup
-# rm pipeline.zip
 
 echo ""
 echo "Bronze pipeline deployment completed!"
+echo "To monitor logs: tail -f $PROJECT_ROOT/logs/bronze/bronze_pipeline.log"
+echo "To stop pipeline: kill $(cat $PROJECT_ROOT/logs/bronze/pipeline.pid)"

@@ -57,6 +57,10 @@ checkpoints:
 bronze:
   trigger_interval: "10 seconds"
 
+silver:
+  trigger_interval: "10 seconds"
+  watermark_delay: "1 hour"
+
 
 
 # Table Definitions Configuration
@@ -64,20 +68,62 @@ tables:
   products:
     source_topic: "cdc-pipeline.public.products"
     bronze_table: "bronze.products"
+    silver_table: "silver.products"
+    table_type: "dimension"  # SCD Type 2
+    business_keys:
+      - "product_id"
+    surrogate_key: "product_sk"
+    attribute_columns:
+      - "product_name"
+      - "aisle_id"
+      - "department_id"
 
   aisles:
     source_topic: "cdc-pipeline.public.aisles"
     bronze_table: "bronze.aisles"
+    silver_table: "silver.aisles"
+    table_type: "dimension"  # SCD Type 2
+    business_keys:
+      - "aisle_id"
+    surrogate_key: "aisle_sk"
+    attribute_columns:
+      - "aisle"
 
   departments:
     source_topic: "cdc-pipeline.public.departments"
     bronze_table: "bronze.departments"
+    silver_table: "silver.departments"
+    table_type: "dimension"  # SCD Type 2
+    business_keys:
+      - "department_id"
+    surrogate_key: "department_sk"
+    attribute_columns:
+      - "department"
 
   orders:
     source_topic: "cdc-pipeline.public.orders"
     bronze_table: "bronze.orders"
+    silver_table: "silver.orders"
+    table_type: "fact"  # Append-only with soft deletes
+    primary_keys:
+      - "order_id"
+    attribute_columns:
+      - "user_id"
+      - "order_number"
+      - "order_dow"
+      - "order_hour_of_day"
+      - "days_since_prior_order"
 
   order_products:
     source_topic: "cdc-pipeline.public.order_products"
     bronze_table: "bronze.order_products"
+    silver_table: "silver.order_products"
+    table_type: "fact"  # Append-only with soft deletes
+    primary_keys:
+      - "order_id"
+      - "product_id"
+    attribute_columns:
+      - "add_to_cart_order"
+      - "reordered"
+
 

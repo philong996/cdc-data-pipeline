@@ -14,7 +14,7 @@ gcloud compute instances create node-1 \
 
 gcloud compute instances create node-2 \
   --zone=asia-southeast1-b \
-  --machine-type=e2-standard-2 \
+  --machine-type=e2-standard-4 \
   --network=cdc-pipeline-vpc \
   --subnet=cdc-pipeline-subnet \
   --network-tier=STANDARD \
@@ -26,7 +26,7 @@ gcloud compute instances create node-2 \
 
 gcloud compute instances create node-3 \
   --zone=asia-southeast1-b \
-  --machine-type=e2-standard-2 \
+  --machine-type=e2-standard-4 \
   --network=cdc-pipeline-vpc \
   --subnet=cdc-pipeline-subnet \
   --network-tier=STANDARD \

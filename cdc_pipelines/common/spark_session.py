@@ -13,37 +13,40 @@ class SparkSessionManager:
     _instance = None
 
     @classmethod
-    def get_or_create(cls, config: Dict[str, Any]) -> SparkSession:
+    def get_or_create(cls, config: Dict[str, Any], name: str) -> SparkSession:
         """
         Get or create a Spark session with the provided configuration.
 
         Args:
             config: Configuration dictionary containing spark settings
-
+            layer: The pipeline layer (e.g., "bronze", "silver", "gold")
         Returns:
             SparkSession instance
         """
         if cls._instance is None:
             logger.info("Creating new Spark session")
-            cls._instance = cls._create_session(config)
+            cls._instance = cls._create_session(config, name)
         else:
             logger.info("Reusing existing Spark session")
 
         return cls._instance
 
     @classmethod
-    def _create_session(cls, config: Dict[str, Any]) -> SparkSession:
+    def _create_session(cls, config: Dict[str, Any], name: str) -> SparkSession:
         """
         Create a new Spark session.
 
         Args:
             config: Configuration dictionary
-
+            name: The name of the Spark application
         Returns:
             SparkSession instance
         """
         spark_config = config.get("spark", {})
-        app_name = spark_config.get("app_name", "cdc-streaming-pipeline")
+        app_name = spark_config['app_name'] + f"-{name}"
+        if not app_name:
+            app_name = "cdc-streaming-pipeline-app"
+
         master = spark_config.get("master", "local[*]")
         spark_conf = spark_config.get("config", {})
 
@@ -75,14 +78,14 @@ class SparkSessionManager:
             cls._instance = None
 
 
-def get_spark_session(config: Dict[str, Any]) -> SparkSession:
+def get_spark_session(config: Dict[str, Any], name: str) -> SparkSession:
     """
     Get or create a Spark session.
 
     Args:
         config: Configuration dictionary
-
+        name: The name of the Spark application
     Returns:
         SparkSession instance
     """
-    return SparkSessionManager.get_or_create(config)
+    return SparkSessionManager.get_or_create(config, name=name)

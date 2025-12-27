@@ -1,8 +1,9 @@
 psycopg2-binary==2.9.9
 pandas==2.1.4
 dotenv
-pyspark==4.0.0
 
+pyspark==4.0.0
+delta-spark==4.0.0
 
 PyYAML==6.0
 python_json_logger==4.0.0
