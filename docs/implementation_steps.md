@@ -52,28 +52,28 @@
 ### Phase 5: Streaming Pipeline Development
 
 - [x] Develop Spark Structured Streaming job (Kafka source)
-- [ ] Implement Debezium JSON envelope parsing
-- [ ] Implement CDC operation handling (insert/update/delete)
-- [ ] Configure Delta Lake sink for bronze layer
-- [ ] Test streaming job with sample CDC events
-- [ ] Deploy streaming job to cluster
-- [ ] Verify data landing in GCS bronze layer
+- [x] Implement Debezium JSON envelope parsing
+- [x] Implement CDC operation handling (insert/update/delete)
+- [x] Configure Delta Lake sink for bronze layer
+- [x] Test streaming job with sample CDC events
+- [x] Deploy streaming job to cluster
+- [x] Verify data landing in GCS bronze layer
 
 ### Phase 6: Medallion Architecture
 
-- [ ] Develop bronze → silver transformation job (deduplication, cleaning)
-- [ ] Implement Type 2 SCD logic for silver layer
+- [x] Develop bronze → silver transformation job (deduplication, cleaning)
+- [x] Implement Type 2 SCD logic for silver layer
 - [ ] Develop silver → gold aggregation jobs
 - [ ] Schedule batch jobs (cron or Spark job scheduler)
 - [ ] Verify medallion data flow end-to-end
 
 ### Phase 7: Query Layer Setup
 
-- [ ] Configure Spark Thrift Server on Node 2
-- [ ] Create external Delta tables in Spark catalog
-- [ ] Start Thrift Server
-- [ ] Test JDBC connectivity to Thrift Server
-- [ ] Verify SQL queries against Delta tables
+- [x] Configure Spark Thrift Server on Node 3
+- [x] Create external Delta tables in Spark catalog
+- [x] Start Thrift Server
+- [x] Test JDBC connectivity to Thrift Server
+- [x] Verify SQL queries against Delta tables
 
 ### Phase 8: Node 3 - Visualization Setup
 
@@ -94,18 +94,3 @@
 - [ ] Create product performance dashboard
 - [ ] Configure dashboard auto-refresh intervals
 
-### Phase 10: Testing & Optimization
-
-- [ ] Run end-to-end pipeline test
-- [ ] Verify data latency (source to dashboard)
-- [ ] Monitor Spark job performance
-- [ ] Tune Spark streaming batch intervals
-- [ ] Tune Delta Lake compaction settings
-- [ ] Document the architecture and configurations
-
-### Phase 11: Cost Optimization
-
-- [ ] Create VM start/stop scripts
-- [ ] Set up scheduled shutdown (Cloud Scheduler or cron)
-- [ ] Consider converting to Spot VMs for development
-- [ ] Monitor and review GCP billing
