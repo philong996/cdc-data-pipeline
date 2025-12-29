@@ -9,15 +9,15 @@ from pyspark.sql.functions import (
     expr,
     get_json_object,
     to_json,
+    date_add,
+    lit,
 )
 from pyspark.sql.window import Window
 from cdc_pipelines.common.logger import get_logger
-from cdc_pipelines.common.schemas import SOURCE_SCHEMAS,DEBEZIUM_SCHEMA
+from cdc_pipelines.common.schemas import SOURCE_SCHEMAS, DEBEZIUM_SCHEMA
 from cdc_pipelines.common.constants import (
     COL_CDC_TIMESTAMP,
     COL_CDC_OPERATION,
-    COL_KAFKA_TIMESTAMP,
-    COL_INGESTION_TIMESTAMP,
 )
 
 logger = get_logger(__name__)
@@ -118,6 +118,9 @@ class BronzeReader:
 
         schema = SOURCE_SCHEMAS[table_name]
 
+        # filter null json_payload
+        df = df.filter(col("json_payload").isNotNull())
+
         # Parse the full Debezium message with DEBEZIUM_SCHEMA
         df = df.withColumn(
             "debezium_payload",
@@ -157,6 +160,14 @@ class BronzeReader:
             df = df.withColumn(
                 field.name,
                 col(f"parsed_data.{field.name}")
+            )
+
+        # Convert Debezium date fields (integer days since epoch) to DateType
+        # For orders table, order_date is sent as days since 1970-01-01
+        if table_name == "orders" and "order_date" in [f.name for f in schema.fields]:
+            df = df.withColumn(
+                "order_date",
+                date_add(lit('1970-01-01').cast('date'), col('order_date'))
             )
 
         # Drop intermediate columns

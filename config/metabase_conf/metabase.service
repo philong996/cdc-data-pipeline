@@ -1,0 +1,19 @@
+[Unit]
+Description=Metabase Business Intelligence
+After=network.target
+
+[Service]
+Type=simple
+User=longnguyen
+Group=longnguyen
+WorkingDirectory=/home/longnguyen/metabase
+Environment="MB_DB_TYPE=h2"
+Environment="MB_DB_FILE=/home/longnguyen/data/metabase.db"
+Environment="MB_JETTY_HOST=0.0.0.0"
+Environment="MB_JETTY_PORT=3000"
+ExecStart=/usr/bin/java -jar /home/longnguyen/metabase/metabase.jar
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -4,11 +4,13 @@ from pyspark.sql.types import (
     StructType,
     StructField,
     StringType,
+    DateType,
     IntegerType,
     LongType,
     TimestampType,
     BooleanType,
     DecimalType,
+    DoubleType
 )
 
 
@@ -66,45 +68,6 @@ DEBEZIUM_SCHEMA = StructType(
 )
 
 
-# Kafka Message Schema (with key and value)
-KAFKA_SCHEMA = StructType(
-    [
-        StructField("key", StringType(), True),
-        StructField("value", StringType(), True),
-        StructField("topic", StringType(), True),
-        StructField("partition", IntegerType(), True),
-        StructField("offset", LongType(), True),
-        StructField("timestamp", TimestampType(), True),
-        StructField("timestampType", IntegerType(), True),
-    ]
-)
-
-
-# Bronze Layer Metadata Schema
-BRONZE_METADATA_SCHEMA = StructType(
-    [
-        StructField("kafka_topic", StringType(), False),
-        StructField("kafka_partition", IntegerType(), False),
-        StructField("kafka_offset", LongType(), False),
-        StructField("kafka_timestamp", TimestampType(), False),
-        StructField("ingestion_timestamp", TimestampType(), False),
-        StructField("cdc_operation", StringType(), False),
-        StructField("cdc_timestamp", TimestampType(), True),
-    ]
-)
-
-
-# Silver Layer SCD2 Schema
-SCD2_SCHEMA = StructType(
-    [
-        StructField("valid_from", TimestampType(), False),
-        StructField("valid_to", TimestampType(), True),
-        StructField("is_current", BooleanType(), False),
-        StructField("row_hash", StringType(), False),
-    ]
-)
-
-
 # Source table schemas (from PostgreSQL)
 PRODUCTS_SOURCE_SCHEMA = StructType(
     [
@@ -134,9 +97,9 @@ ORDERS_SOURCE_SCHEMA = StructType(
         StructField("order_id", IntegerType(), False),
         StructField("user_id", IntegerType(), True),
         StructField("order_number", IntegerType(), True),
-        StructField("order_dow", IntegerType(), True),
+        StructField("order_date", IntegerType(), True),  # Debezium sends as days since epoch
         StructField("order_hour_of_day", IntegerType(), True),
-        StructField("days_since_prior_order", DecimalType(10, 2), True),
+        StructField("days_since_prior_order", IntegerType(), True),
     ]
 )
 
@@ -160,7 +123,14 @@ SILVER_PRODUCTS_SCHEMA = StructType(
         # Attributes
         StructField("product_name", StringType(), True),
         StructField("aisle_id", IntegerType(), True),
-        StructField("department_id", IntegerType(), True),
+        StructField("department_id", IntegerType(), True),        
+        # CDC Metadata
+        StructField("topic", StringType(), False),
+        StructField("partition", IntegerType(), False),
+        StructField("offset", LongType(), False),
+        StructField("kafka_timestamp", TimestampType(), False),
+        StructField("cdc_operation", StringType(), False),
+        StructField("cdc_timestamp", TimestampType(), True),
         # SCD Type 2 Metadata
         StructField("effective_from", TimestampType(), False),
         StructField("effective_to", TimestampType(), True),
@@ -168,9 +138,7 @@ SILVER_PRODUCTS_SCHEMA = StructType(
         StructField("version", IntegerType(), False),
         # Lineage Tracking
         StructField("created_from_bronze_ts", TimestampType(), False),
-        StructField("updated_from_bronze_ts", TimestampType(), False),
         StructField("source_operation", StringType(), False),
-        StructField("data_quality_score", IntegerType(), True),
     ]
 )
 
@@ -181,6 +149,13 @@ SILVER_AISLES_SCHEMA = StructType(
         StructField("aisle_sk", LongType(), False),
         # Attributes
         StructField("aisle", StringType(), True),
+        # CDC Metadata
+        StructField("topic", StringType(), False),
+        StructField("partition", IntegerType(), False),
+        StructField("offset", LongType(), False),
+        StructField("kafka_timestamp", TimestampType(), False),
+        StructField("cdc_operation", StringType(), False),
+        StructField("cdc_timestamp", TimestampType(), True),
         # SCD Type 2 Metadata
         StructField("effective_from", TimestampType(), False),
         StructField("effective_to", TimestampType(), True),
@@ -188,9 +163,7 @@ SILVER_AISLES_SCHEMA = StructType(
         StructField("version", IntegerType(), False),
         # Lineage Tracking
         StructField("created_from_bronze_ts", TimestampType(), False),
-        StructField("updated_from_bronze_ts", TimestampType(), False),
         StructField("source_operation", StringType(), False),
-        StructField("data_quality_score", IntegerType(), True),
     ]
 )
 
@@ -201,6 +174,13 @@ SILVER_DEPARTMENTS_SCHEMA = StructType(
         StructField("department_sk", LongType(), False),
         # Attributes
         StructField("department", StringType(), True),
+        # CDC Metadata
+        StructField("topic", StringType(), False),
+        StructField("partition", IntegerType(), False),
+        StructField("offset", LongType(), False),
+        StructField("kafka_timestamp", TimestampType(), False),
+        StructField("cdc_operation", StringType(), False),
+        StructField("cdc_timestamp", TimestampType(), True),
         # SCD Type 2 Metadata
         StructField("effective_from", TimestampType(), False),
         StructField("effective_to", TimestampType(), True),
@@ -208,9 +188,7 @@ SILVER_DEPARTMENTS_SCHEMA = StructType(
         StructField("version", IntegerType(), False),
         # Lineage Tracking
         StructField("created_from_bronze_ts", TimestampType(), False),
-        StructField("updated_from_bronze_ts", TimestampType(), False),
         StructField("source_operation", StringType(), False),
-        StructField("data_quality_score", IntegerType(), True),
     ]
 )
 
@@ -224,9 +202,16 @@ SILVER_ORDERS_SCHEMA = StructType(
         # Attributes
         StructField("user_id", IntegerType(), True),
         StructField("order_number", IntegerType(), True),
-        StructField("order_dow", IntegerType(), True),
+        StructField("order_date", DateType(), True),
         StructField("order_hour_of_day", IntegerType(), True),
         StructField("days_since_prior_order", DecimalType(10, 2), True),
+        # CDC Metadata
+        StructField("topic", StringType(), False),
+        StructField("partition", IntegerType(), False),
+        StructField("offset", LongType(), False),
+        StructField("kafka_timestamp", TimestampType(), False),
+        StructField("cdc_operation", StringType(), False),
+        StructField("cdc_timestamp", TimestampType(), True),
         # Change Tracking
         StructField("created_at", TimestampType(), False),
         StructField("updated_at", TimestampType(), False),
@@ -234,7 +219,6 @@ SILVER_ORDERS_SCHEMA = StructType(
         StructField("deleted_at", TimestampType(), True),
         # Lineage
         StructField("first_seen_bronze_ts", TimestampType(), False),
-        StructField("last_updated_bronze_ts", TimestampType(), False),
         StructField("update_count", IntegerType(), False),
     ]
 )
@@ -247,6 +231,13 @@ SILVER_ORDER_PRODUCTS_SCHEMA = StructType(
         # Attributes
         StructField("add_to_cart_order", IntegerType(), True),
         StructField("reordered", IntegerType(), True),
+        # CDC Metadata
+        StructField("topic", StringType(), False),
+        StructField("partition", IntegerType(), False),
+        StructField("offset", LongType(), False),
+        StructField("kafka_timestamp", TimestampType(), False),
+        StructField("cdc_operation", StringType(), False),
+        StructField("cdc_timestamp", TimestampType(), True),
         # Change Tracking
         StructField("created_at", TimestampType(), False),
         StructField("updated_at", TimestampType(), False),
@@ -254,10 +245,83 @@ SILVER_ORDER_PRODUCTS_SCHEMA = StructType(
         StructField("deleted_at", TimestampType(), True),
         # Lineage
         StructField("first_seen_bronze_ts", TimestampType(), False),
-        StructField("last_updated_bronze_ts", TimestampType(), False),
         StructField("update_count", IntegerType(), False),
     ]
 )
+
+GOLD_PRODUCT_PERFORMANCE_DAILY_SCHEMA = StructType([
+    # Dimensions (Current SCD Type 2 attributes)
+    StructField("date", DateType(), False),
+    StructField("product_id", IntegerType(), False),
+    StructField("product_sk", LongType(), False),  # Join to current version
+    StructField("product_name", StringType(), True),
+    StructField("aisle_id", IntegerType(), True),
+    StructField("aisle", StringType(), True),
+    StructField("department_id", IntegerType(), True),
+    StructField("department", StringType(), True),
+    
+    # Metrics
+    StructField("total_orders", LongType(), False),
+    StructField("total_quantity", LongType(), False),
+    StructField("unique_customers", LongType(), False),
+    StructField("reorder_count", LongType(), False),
+    StructField("reorder_rate", DoubleType(), True),
+    StructField("avg_cart_position", DoubleType(), True),
+    
+    # Metadata
+    StructField("last_updated_at", TimestampType(), False),
+])
+
+GOLD_CUSTOMER_ORDER_SUMMARY_SCHEMA = StructType([
+    # Customer Identity
+    StructField("user_id", IntegerType(), False),
+    
+    # Order Behavior
+    StructField("total_orders", IntegerType(), False),
+    StructField("total_products", LongType(), False),
+    StructField("avg_products_per_order", DoubleType(), True),
+    StructField("avg_days_between_orders", DoubleType(), True),
+    
+    # Timing Patterns
+    StructField("most_common_order_dow", IntegerType(), True),
+    StructField("most_common_order_hour", IntegerType(), True),
+    StructField("avg_order_hour", DoubleType(), True),
+    
+    # Recency Metrics
+    StructField("first_order_date", DateType(), True),
+    StructField("last_order_date", DateType(), True),
+    StructField("days_since_last_order", IntegerType(), True),
+    StructField("customer_lifetime_days", IntegerType(), True),
+    
+    # Reorder Behavior
+    StructField("total_reordered_products", LongType(), False),
+    StructField("reorder_rate", DoubleType(), True),
+    
+    # Customer Status
+    StructField("is_active", BooleanType(), False),  # Ordered in last 7 days
+    StructField("customer_segment", StringType(), True),  # high/medium/low frequency
+    
+    # Metadata
+    StructField("last_updated_at", TimestampType(), False),
+])
+
+GOLD_ORDER_HOURLY_PATTERNS_SCHEMA = StructType([
+    # Time Dimensions
+    StructField("date", DateType(), False),
+    StructField("hour_of_day", IntegerType(), False),
+    StructField("day_of_week", IntegerType(), False),
+    StructField("day_name", StringType(), True),
+    StructField("is_weekend", BooleanType(), False),
+    
+    # Order Metrics
+    StructField("total_orders", LongType(), False),
+    StructField("unique_customers", LongType(), False),
+    StructField("avg_products_per_order", DoubleType(), True),
+    StructField("total_products", LongType(), False),
+    
+    # Metadata
+    StructField("last_updated_at", TimestampType(), False),
+])
 
 
 # Schema mapping for easy lookup
@@ -310,27 +374,4 @@ def get_table_schema(table_name: str, schema_dict: dict) -> StructType:
     return StructType(fields)
 
 
-def add_bronze_metadata(schema: StructType) -> StructType:
-    """
-    Add bronze metadata columns to a schema.
 
-    Args:
-        schema: Original schema
-
-    Returns:
-        Schema with metadata columns added
-    """
-    return StructType(list(schema.fields) + list(BRONZE_METADATA_SCHEMA.fields))
-
-
-def add_scd2_columns(schema: StructType) -> StructType:
-    """
-    Add SCD2 columns to a schema.
-
-    Args:
-        schema: Original schema
-
-    Returns:
-        Schema with SCD2 columns added
-    """
-    return StructType(list(schema.fields) + list(SCD2_SCHEMA.fields))

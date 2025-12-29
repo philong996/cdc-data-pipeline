@@ -78,19 +78,19 @@
 ### Phase 8: Node 3 - Visualization Setup
 
 - [ ] Install PostgreSQL for Metabase metadata
-- [ ] Create Metabase database and user
-- [ ] Download and install Metabase
+- [x] Create Metabase database and user
+- [x] Download and install Metabase
 - [ ] Configure Metabase to use local PostgreSQL
-- [ ] Start Metabase service
-- [ ] Connect Metabase to Spark Thrift Server via JDBC
-- [ ] Create data source pointing to gold layer tables
+- [x] Start Metabase service
+- [x] Connect Metabase to Spark Thrift Server via JDBC
+- [x] Create data source pointing to gold layer tables
 
 ### Phase 9: Dashboard Development
 
-- [ ] Design dashboard requirements (KPIs, charts)
-- [ ] Create orders real-time monitoring dashboard
-- [ ] Create sales trends dashboard
-- [ ] Create customer analytics dashboard
-- [ ] Create product performance dashboard
-- [ ] Configure dashboard auto-refresh intervals
+- [x] Design dashboard requirements (KPIs, charts)
+- [x] Create orders real-time monitoring dashboard
+- [x] Create sales trends dashboard
+- [x] Create customer analytics dashboard
+- [x] Create product performance dashboard
+- [x] Configure dashboard auto-refresh intervals
 

@@ -57,7 +57,12 @@ checkpoints:
 bronze:
   trigger_interval: "10 seconds"
 
+silver:
+  trigger_interval: "10 seconds"
+  watermark_delay: "1 hour"
 
+gold:
+  trigger_interval: 900  # 15 minutes in seconds
 
 # Table Definitions Configuration
 tables:
@@ -104,9 +109,9 @@ tables:
     attribute_columns:
       - "user_id"
       - "order_number"
-      - "order_dow"
       - "order_hour_of_day"
       - "days_since_prior_order"
+      - "order_date"
 
   order_products:
     source_topic: "cdc-pipeline.instacart.order_products"
@@ -119,3 +124,17 @@ tables:
     attribute_columns:
       - "add_to_cart_order"
       - "reordered"
+
+# Gold Table Definitions
+gold_tables:
+  product_performance_daily:
+    description: "Daily product performance metrics with aggregated sales data"
+    refresh_strategy: "complete_overwrite"
+    
+  customer_order_summary:
+    description: "Customer behavior summary with lifetime metrics"
+    refresh_strategy: "complete_overwrite"
+    
+  order_hourly_patterns:
+    description: "Order patterns aggregated by date and hour"
+    refresh_strategy: "complete_overwrite"

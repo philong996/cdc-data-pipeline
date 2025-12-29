@@ -1,9 +1,6 @@
 -- Create database for Bronze layer
 CREATE DATABASE IF NOT EXISTS bronze;
 
--- Create database for Silver layer
-CREATE DATABASE IF NOT EXISTS silver;
-
 -- Create database for Gold layer
 CREATE DATABASE IF NOT EXISTS gold;
 

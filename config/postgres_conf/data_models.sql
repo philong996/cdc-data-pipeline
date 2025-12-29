@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS instacart.orders (
     order_id INTEGER PRIMARY KEY
     , user_id INTEGER NOT NULL
     , order_number INTEGER
-    , order_dow INTEGER
-    , order_hour_of_day INTEGER
     , days_since_prior_order INTEGER
+    , order_date DATE
+    , order_hour_of_day INTEGER
 );
 
 -- Order Products table (all order-product relationships)
